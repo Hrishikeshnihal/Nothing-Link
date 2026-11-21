@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "899067968175",
+    "project_id": "nothing-link-cloud",
+    "storage_bucket": "nothing-link-cloud.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899067968175:android:286b2ea5dda078d2fc725a",
+        "android_client_info": {
+          "package_name": "com.nothing.link.companion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4aql9Lu2LBeIBk7X_Xc-keg69Go-7F38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899067968175:android:286b2ea5dda078d2fc725a",
+        "android_client_info": {
+          "package_name": "com.nothing.link.companion.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4aql9Lu2LBeIBk7X_Xc-keg69Go-7F38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,109 @@
+@echo off
+title Nothing Link // One-Click Setup & Installer
+setlocal enabledelayedexpansion
+cd /d "%~dp0"
+
+echo ===================================================================
+echo              NOTHING LINK // ONE-CLICK SETUP ^& INSTALLER
+echo ===================================================================
+echo.
+
+set "ADB=%~dp0bin\scrcpy\adb.exe"
+set "APK=%~dp0companion\nothing-connect-companion.apk"
+
+:: 1. Verify Bundled Binaries
+echo [1/4] Verifying ADB & Scrcpy Engine...
+if not exist "%ADB%" (
+    echo [ERROR] adb.exe not found in bin\scrcpy\.
+    echo Please make sure the repository was cloned completely.
+    pause
+    exit /b 1
+)
+echo       Scrcpy v3.3.4 & ADB detected. OK.
+echo.
+
+:: 2. Setup Node.js Cloud Server Dependencies (Optional)
+echo [2/4] Checking Node.js for Cloud Dashboard...
+where node >nul 2>&1
+if %errorlevel% equ 0 (
+    echo       Node.js detected. Installing server dependencies...
+    if exist "server\package.json" (
+        cd /d "%~dp0server"
+        call npm install --silent >nul 2>&1
+        cd /d "%~dp0"
+        echo       Server dependencies ready. OK.
+    )
+) else (
+    echo       Node.js not detected (optional for Web Dashboard).
+    echo       Native BAT files (1-Mirror-Screen.bat) will work directly.
+)
+echo.
+
+:: 3. Phone Detection & Companion App Installation
+echo [3/4] Detecting Nothing Phone via USB...
+echo       Please ensure:
+echo         1. Phone is plugged into PC via USB cable.
+echo         2. USB Debugging is ENABLED in Developer Options.
+echo         3. If prompted on phone, tap 'Always Allow from this computer'.
+echo.
+
+set "PHONE_ID="
+for /f "tokens=1,2" %%A in ('"%ADB%" devices') do (
+    if "%%B"=="device" (
+        set "PHONE_ID=%%A"
+    )
+)
+
+if "%PHONE_ID%"=="" (
+    echo [NOTICE] No phone detected via USB right now.
+    echo.
+    echo You can install the companion app later by plugging in USB and
+    echo running 'Setup.bat' or 'Install-Companion-App.bat', OR by
+    echo copying 'companion\nothing-connect-companion.apk' directly to your phone.
+    echo.
+) else (
+    echo       Found phone: %PHONE_ID%
+    echo       Installing Nothing Link Companion APK...
+    "%ADB%" -s %PHONE_ID% install -r -d "%APK%" >nul 2>&1
+    
+    echo       Granting permissions...
+    "%ADB%" -s %PHONE_ID% shell "pm grant com.nothing.link.companion android.permission.POST_NOTIFICATIONS 2>/dev/null"
+    "%ADB%" -s %PHONE_ID% shell "pm grant com.nothing.link.companion moe.shizuku.manager.permission.API_V23 2>/dev/null"
+    "%ADB%" -s %PHONE_ID% shell "dumpsys deviceidle whitelist +com.nothing.link.companion 2>/dev/null"
+    "%ADB%" -s %PHONE_ID% shell "settings put secure enabled_accessibility_services com.nothing.link.companion/com.nothing.link.companion.service.NothingAccessibilityService 2>/dev/null"
+    "%ADB%" -s %PHONE_ID% shell "settings put secure accessibility_enabled 1 2>/dev/null"
+    "%ADB%" -s %PHONE_ID% shell "pm grant com.nothing.link.companion.debug android.permission.POST_NOTIFICATIONS 2>/dev/null"
+    "%ADB%" -s %PHONE_ID% shell "pm grant com.nothing.link.companion.debug moe.shizuku.manager.permission.API_V23 2>/dev/null"
+    "%ADB%" -s %PHONE_ID% shell "dumpsys deviceidle whitelist +com.nothing.link.companion.debug 2>/dev/null"
+
+    echo       Starting Shizuku Service via ADB...
+    "%ADB%" -s %PHONE_ID% shell "p=$(pm path moe.shizuku.privileged.api | head -n 1 | cut -d: -f2); d=$(dirname \"$p\"); if [ -f \"$d/lib/arm64/libshizuku.so\" ]; then \"$d/lib/arm64/libshizuku.so\"; elif [ -f \"$d/lib/arm/libshizuku.so\" ]; then \"$d/lib/arm/libshizuku.so\"; else sh /sdcard/Android/data/moe.shizuku.privileged.api/starter.sh; fi 2>/dev/null"
+
+    echo       Enabling Wireless ADB Port 5555...
+    "%ADB%" -s %PHONE_ID% tcpip 5555 >nul 2>&1
+
+    echo       Launching Nothing Link on phone...
+    "%ADB%" -s %PHONE_ID% shell "monkey -p com.nothing.link.companion -c android.intent.category.LAUNCHER 1 2>/dev/null"
+    "%ADB%" -s %PHONE_ID% shell "monkey -p com.nothing.link.companion.debug -c android.intent.category.LAUNCHER 1 2>/dev/null"
+    echo       Phone companion setup complete! OK.
+)
+echo.
+
+:: 4. Done Summary
+echo ===================================================================
+echo                      SETUP COMPLETED!
+echo ===================================================================
+echo.
+echo HOW TO USE:
+echo   1. Turn ON your phone's Wi-Fi Hotspot.
+echo   2. Connect PC Wi-Fi to your phone's Hotspot.
+echo   3. Double-click '1-Mirror-Screen.bat' to start mirroring!
+echo.
+echo   - 1-Mirror-Screen.bat   : 120 FPS Mirror with screen OFF ^& auto-unlock
+echo   - 2-Mirror-Screen-On.bat: Mirror with phone screen visible
+echo   - 3-Turn-On-Hotspot.bat : Toggle phone hotspot remotely
+echo   - Start-Shizuku.bat     : Restarts Shizuku anytime after phone reboot
+echo   - Start-Nothing-Link.bat: Launches Cloud Dashboard (localhost:3000)
+echo ===================================================================
+echo.
+pause

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nothing Link // Master Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="nothing-theme">
+  <div class="dot-grid-overlay"></div>
+
+  <!-- Header -->
+  <header class="header-pill">
+    <div class="brand">
+      <span class="glyph-dot"></span>
+      <span class="brand-title">NOTHING CONNECT <span class="tag">NOS 5.0</span></span>
+    </div>
+    <div class="header-right">
+      <div class="user-pill" id="userPill" style="display:none;">
+        <span class="user-icon">☁️</span>
+        <span class="user-email" id="userEmailText">nihalhrishikesh@gmail.com</span>
+        <button class="logout-btn" id="logoutBtn">Sign Out</button>
+      </div>
+      <div class="status-pill" id="connPill">
+        <span class="status-dot orange" id="connDot"></span>
+        <span class="status-text" id="connText">Checking Network...</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- Firebase Auth Card (Shows only if logged out) -->
+    <div class="card auth-card" id="authCard" style="display:none;">
+      <div class="card-header">
+        <div class="indicator-bar red"></div>
+        <div class="header-text-group">
+          <h3 class="card-title small">SIGN IN TO FIREBASE CLOUD</h3>
+          <span class="device-sub">Required for Different Network & 5G Remote Control</span>
+        </div>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" id="authEmail" value="nihalhrishikesh@gmail.com" required>
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="authPassword" placeholder="Enter Firebase Password" required>
+        </div>
+        <button type="submit" class="btn action-btn primary auth-submit-btn">SIGN IN TO CLOUD</button>
+        <span class="auth-error" id="authErrorMsg" style="display:none;"></span>
+      </form>
+    </div>
+
+    <!-- Primary Control Card -->
+    <div class="card main-card">
+      <div class="card-header">
+        <div class="indicator-bar" id="deviceIndicator"></div>
+        <div class="header-text-group">
+          <h2 class="card-title" id="deviceTitle">NOTHING PHONE (2A) PLUS</h2>
+          <span class="device-sub" id="deviceSub">Dual Engine: 5G Cloud Mesh & 2ms Direct Hotspot</span>
+        </div>
+        <span class="status-badge offline" id="statusBadge">SEARCHING</span>
+      </div>
+
+      <!-- Quick Specs -->
+      <div class="specs-grid">
+        <div class="spec-item">
+          <span class="spec-label">NETWORK ROUTE</span>
+          <span class="spec-val" id="specConnection">Searching...</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">AUTO-UNLOCK</span>
+          <span class="spec-val highlight">Pattern 159873 (Armed)</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">DISPLAY MODE</span>
+          <span class="spec-val" id="specMode">Physical Screen OFF</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">CLOUD SIGNALING</span>
+          <span class="spec-val" id="specChannel">Ready</span>
+        </div>
+      </div>
+
+      <!-- Main Action Buttons -->
+      <div class="action-grid">
+        <!-- 1. Turn On Hotspot -->
+        <button class="btn action-btn primary" id="btnHotspot">
+          <div class="btn-icon">📡</div>
+          <div class="btn-content">
+            <span class="btn-title">TURN ON PHONE HOTSPOT</span>
+            <span class="btn-desc">Remotely trigger hotspot over 5G Cloud or local link</span>
+          </div>
+        </button>
+
+        <!-- 2. Mirror Screen (Screen OFF) -->
+        <button class="btn action-btn secondary" id="btnMirrorOff">
+          <div class="btn-icon">⚡</div>
+          <div class="btn-content">
+            <span class="btn-title">MIRROR SCREEN (SCREEN OFF)</span>
+            <span class="btn-desc">Physical screen stays dark & off • Auto-unlocks 159873</span>
+          </div>
+        </button>
+
+        <!-- 3. Mirror Screen (Screen ON) -->
+        <button class="btn action-btn outline" id="btnMirrorOn">
+          <div class="btn-icon">👁️</div>
+          <div class="btn-content">
+            <span class="btn-title">MIRROR SCREEN (SCREEN ON)</span>
+            <span class="btn-desc">Mirrors with phone physical screen turned on</span>
+          </div>
+        </button>
+
+        <!-- 4. Auto-Unlock -->
+        <button class="btn action-btn outline" id="btnUnlock">
+          <div class="btn-icon">🔓</div>
+          <div class="btn-content">
+            <span class="btn-title">UNLOCK PHONE (159873)</span>
+            <span class="btn-desc">Wake screen + dismiss bouncer + stroke pattern</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Stop button if running -->
+      <div class="stop-container" id="stopContainer" style="display:none;">
+        <button class="btn stop-btn" id="btnStopStream">DISCONNECT / CLOSE MIRROR WINDOW</button>
+      </div>
+    </div>
+
+    <!-- Dual Mode Guide Card -->
+    <div class="card info-card" id="infoCard">
+      <div class="card-header">
+        <div class="indicator-bar red"></div>
+        <h3 class="card-title small">HOW DUAL NETWORK MODE WORKS</h3>
+      </div>
+      <div class="connection-steps">
+        <div class="step-item">
+          <span class="step-num">1</span>
+          <div class="step-text">
+            <strong>Different Network / 5G Remote Control</strong>: Click <em>TURN ON PHONE HOTSPOT</em> or <em>MIRROR SCREEN</em>. The PC instantly connects via Firebase Cloud WebRTC P2P tunnel to control your phone across different networks!
+          </div>
+        </div>
+        <div class="step-item">
+          <span class="step-num">2</span>
+          <div class="step-text">
+            <strong>Connected to Hotspot Mode (2ms Speed)</strong>: Once Hotspot is on, connect your PC's Wi-Fi to your phone's hotspot. Latency drops to 2ms cable-like speed with 120 FPS LTPO hardware streaming!
+          </div>
+        </div>
+        <div class="step-item">
+          <span class="step-num">3</span>
+          <div class="step-text">
+            <strong>Physical Screen Remains OFF</strong>: During mirroring, your physical phone screen stays completely dark and cool while automatically waking and stroking your pattern (<em>159873</em>).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Banner -->
+    <div class="toast-banner" id="toastBanner" style="display:none;">
+      <span class="toast-text" id="toastText"></span>
+    </div>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

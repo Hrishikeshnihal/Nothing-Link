@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Nothing Link</string>
+    <string name="accessibility_description">Enables automated pattern unlock (159873) and cross-screen control for Nothing Link PC streaming.</string>
+</resources>
