@@ -23,15 +23,18 @@ A high-performance wireless screen mirroring and remote control system tailored 
 
 ## 🚀 Quick Start
 
-### 1. Initial Setup
-1. Connect your phone to your PC via USB cable.
-2. Enable **USB Debugging** under *Settings -> System -> Developer Options*.
-3. Run `Setup.bat` to install the companion APK, grant permissions, and configure wireless ADB port 5555.
+### 1. Launch Nothing Link
+Simply double-click **`NothingLink.exe`**.
 
-### 2. Daily Wireless Usage
-1. Turn ON the Wi-Fi Hotspot on your phone.
-2. Connect your PC Wi-Fi to your phone's hotspot.
-3. Run `1-Mirror-Screen.bat`. The script auto-detects the gateway IP, performs the unlock sequence, and starts 120 FPS mirroring with the phone display powered off.
+### 2. First-Time Setup (1-Click)
+1. Plug your Nothing Phone into your PC via USB cable (with USB Debugging enabled).
+2. Click **`1-Click Setup`** inside the app.
+3. The app automatically installs the companion APK, grants Shizuku and accessibility permissions, whitelists battery, and opens wireless ADB on port 5555.
+
+### 3. Daily Wireless Usage
+1. Connect your PC Wi-Fi to your phone's Wi-Fi Hotspot.
+2. Open **`NothingLink.exe`** and click **`⚡ MIRROR (SCREEN OFF)`**.
+3. The app automatically wakes and unlocks your phone (Pattern, PIN, Password, or Swipe) and starts 120 FPS hardware H.265 mirroring with the physical phone screen completely black.
 
 ---
 
@@ -49,15 +52,16 @@ A high-performance wireless screen mirroring and remote control system tailored 
 
 ---
 
-## 📂 Launchers
+## 🖥️ Nothing Link Windows Desktop App (`NothingLink.exe`)
 
-- `Setup.bat`: One-click setup for new PCs (installs APK, grants permissions, starts services).
-- `1-Mirror-Screen.bat`: Connects over hotspot, auto-unlocks, and streams with phone display OFF.
-- `2-Mirror-Screen-On.bat`: Streams while keeping the physical phone screen visible.
-- `3-Turn-On-Hotspot.bat`: Sends remote command to activate phone hotspot.
-- `Start-Nothing-Link.bat`: Opens local Web Dashboard at `http://localhost:3000`.
-- `Start-Shizuku.bat`: Starts Shizuku server on phone via ADB after a reboot.
-- `Install-Companion-App.bat`: Installs or updates the companion APK to connected phone.
+The unified Windows program includes:
+- **⚡ Mirror (Screen Off)**: 120 FPS LTPO streaming, hardware H.265 encoding, auto-unlocks, and keeps the physical phone screen black to stay cool and save battery.
+- **📱 Mirror (Screen On)**: Streams while keeping the physical phone screen visible.
+- **📶 Toggle Hotspot**: Sends remote command via Shizuku shell to toggle mobile hotspot on/off without touching your phone.
+- **🛠️ 1-Click Setup**: Automatically installs the companion APK to connected phone, grants all necessary permissions, and configures wireless ADB port 5555.
+- **⚡ Start Shizuku**: 1-click restarts the Shizuku server via ADB after a phone reboot.
+- **🔒 Lock Screen Configuration**: Visual and instant setup for Pattern (3x3 grid), PIN, Password, or None.
+- **🌐 Open Cloud Web Dashboard**: Launches the Web Cloud Dashboard on `http://localhost:3000`.
 
 ---
 
@@ -94,28 +98,23 @@ Pattern=159873
 
 | Issue | Resolution |
 |---|---|
-| **Device not detected over Wi-Fi** | Ensure both PC and Phone are on the same subnet/hotspot. Run `Setup.bat` once with USB connected to re-enable wireless port 5555. |
+| **Device not detected over Wi-Fi** | Ensure both PC and Phone are on the same subnet/hotspot. Plug in USB and click `1-Click Setup` in NothingLink to re-enable wireless port 5555. |
 | **Phone screen turns black & unresponsive** | Normal behavior during *Screen-Off Mirroring*. Press `MOD + p` or double-tap the phone power button to wake the physical display. |
 | **Black screen or video lag** | In `settings.ini`, change `VideoCodec=h265` to `VideoCodec=h264`, or lower `MaxFps=120` to `MaxFps=60`. |
-| **Shizuku service stopped** | If your phone was rebooted, connect USB or run `Start-Shizuku.bat` to restart the Shizuku wireless service. |
+| **Shizuku service stopped** | If your phone was rebooted, click `Start Shizuku` inside `NothingLink.exe` to restart the Shizuku service over ADB. |
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-├── 1-Mirror-Screen.bat         # Mirror with screen off & auto-unlock
-├── 2-Mirror-Screen-On.bat      # Mirror with screen visible
-├── 3-Turn-On-Hotspot.bat       # Remote hotspot activation
-├── Setup.bat                   # Automated setup script
-├── Start-Nothing-Link.bat      # Web dashboard launcher
-├── Start-Shizuku.bat           # ADB Shizuku starter
-├── Install-Companion-App.bat   # APK installer
-├── settings.ini                # Runtime configuration
-├── android-companion/          # Android companion app source code
-├── bin/scrcpy/                 # Portable ADB and Scrcpy binaries
+├── NothingLink.exe             # Unified Windows Desktop Program
+├── settings.ini                # Runtime configuration (Network, Display, Security)
+├── windows-app/                # Windows .NET 10 desktop application source code
+├── android-companion/          # Android companion app source code (Nothing OS 5.0)
+├── bin/scrcpy/                 # Portable ADB and Scrcpy runtime
 ├── companion/                  # Precompiled companion APK
-├── core/                       # Automation scripts (PowerShell & Shell)
+├── core/                       # Core engine scripts (PowerShell & Shell)
 └── server/                     # Web dashboard server
 ```
 

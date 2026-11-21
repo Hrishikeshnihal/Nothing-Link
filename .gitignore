@@ -39,3 +39,10 @@ bin/scrcpy/*.exe
 bin/scrcpy/scrcpy-server
 bin/scrcpy/icon.png
 bin/scrcpy/*.vbs
+
+# Windows App build artifacts
+windows-app/bin/
+windows-app/obj/
+windows-app/out/
+windows-app/out_self/
+*.pdb
