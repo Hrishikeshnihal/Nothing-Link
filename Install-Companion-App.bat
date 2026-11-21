@@ -12,9 +12,9 @@ set "ADB=%~dp0bin\scrcpy\adb.exe"
 set "APK=%~dp0companion\nothing-connect-companion.apk"
 
 if not exist "%APK%" (
-    echo [ERROR] APK not found at: %APK%
-    pause
-    exit /b 1
+    echo [1/3] Companion APK not found locally. Downloading from GitHub Releases...
+    if not exist "%~dp0companion" mkdir "%~dp0companion"
+    powershell -NoProfile -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://github.com/Hrishikeshnihal/Nothing-Link/releases/download/v3.0.0-PRO/nothing-connect-companion.apk' -OutFile '%APK%'" >nul 2>&1
 )
 
 echo [1/3] Checking connected phone via ADB...

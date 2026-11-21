@@ -11,15 +11,19 @@ echo.
 set "ADB=%~dp0bin\scrcpy\adb.exe"
 set "APK=%~dp0companion\nothing-connect-companion.apk"
 
-:: 1. Verify Bundled Binaries
-echo [1/4] Verifying ADB & Scrcpy Engine...
+:: 1. Verify Bundled Binaries & Companion APK
+echo [1/4] Verifying Scrcpy Engine ^& Companion APK...
 if not exist "%ADB%" (
-    echo [ERROR] adb.exe not found in bin\scrcpy\.
-    echo Please make sure the repository was cloned completely.
-    pause
-    exit /b 1
+    echo       Downloading portable Scrcpy v3.3.4 ^& ADB engine...
+    if not exist "%~dp0bin\scrcpy" mkdir "%~dp0bin\scrcpy"
+    powershell -NoProfile -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $z = Join-Path $env:TEMP 'scrcpy.zip'; Invoke-WebRequest -Uri 'https://github.com/Genymobile/scrcpy/releases/download/v3.3.4/scrcpy-win64-v3.3.4.zip' -OutFile $z; Expand-Archive -Path $z -DestinationPath (Join-Path $env:TEMP 'scrcpy_ext') -Force; Copy-Item -Path (Join-Path (Join-Path $env:TEMP 'scrcpy_ext') 'scrcpy-win64-v3.3.4\*') -Destination '%~dp0bin\scrcpy' -Recurse -Force; Remove-Item $z -Force; Remove-Item (Join-Path $env:TEMP 'scrcpy_ext') -Recurse -Force" >nul 2>&1
 )
-echo       Scrcpy v3.3.4 & ADB detected. OK.
+if not exist "%APK%" (
+    echo       Downloading Nothing Link Companion APK from GitHub Releases...
+    if not exist "%~dp0companion" mkdir "%~dp0companion"
+    powershell -NoProfile -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://github.com/Hrishikeshnihal/Nothing-Link/releases/download/v3.0.0-PRO/nothing-connect-companion.apk' -OutFile '%APK%'" >nul 2>&1
+)
+echo       Scrcpy v3.3.4 runtime ^& Companion APK ready. OK.
 echo.
 
 :: 2. Setup Node.js Cloud Server Dependencies (Optional)

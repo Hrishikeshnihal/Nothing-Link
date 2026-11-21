@@ -32,3 +32,9 @@ Thumbs.db
 
 # Built APK binaries
 companion/*.apk
+
+# Scrcpy & ADB binary engine (auto-downloaded by Setup.bat)
+bin/scrcpy/*.dll
+bin/scrcpy/*.exe
+bin/scrcpy/scrcpy-server
+bin/scrcpy/icon.png

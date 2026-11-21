@@ -1,6 +1,12 @@
 # Nothing Link
 
+[![Release](https://img.shields.io/github/v/release/Hrishikeshnihal/Nothing-Link?color=D71921)](https://github.com/Hrishikeshnihal/Nothing-Link/releases/tag/v3.0.0-PRO)
+[![Nothing OS](https://img.shields.io/badge/Nothing_OS-5.0-black)](https://github.com/Hrishikeshnihal/Nothing-Link)
+[![Companion APK](https://img.shields.io/badge/Download-APK-34D399)](https://github.com/Hrishikeshnihal/Nothing-Link/releases/download/v3.0.0-PRO/nothing-connect-companion.apk)
+
 A high-performance wireless screen mirroring and remote control system tailored for Nothing OS devices.
+
+### 📥 [Download Latest Release v3.0.0-PRO](https://github.com/Hrishikeshnihal/Nothing-Link/releases/tag/v3.0.0-PRO)
 
 ## Features
 
