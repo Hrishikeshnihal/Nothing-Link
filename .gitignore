@@ -38,3 +38,4 @@ bin/scrcpy/*.dll
 bin/scrcpy/*.exe
 bin/scrcpy/scrcpy-server
 bin/scrcpy/icon.png
+bin/scrcpy/*.vbs

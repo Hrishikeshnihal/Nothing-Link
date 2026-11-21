@@ -93,7 +93,51 @@ if "%PHONE_ID%"=="" (
 )
 echo.
 
-:: 4. Done Summary
+:: 4. Optional Lock Screen Configuration
+echo [4/4] Configuring Lock Screen Auto-Unlock...
+echo.
+echo Choose your Phone's Lock Screen Type:
+echo   [1] Pattern (3x3 grid dots 1 to 9)
+echo   [2] PIN (e.g. 1234)
+echo   [3] Password (alphanumeric)
+echo   [4] None / Swipe
+echo   [Enter] Keep existing settings.ini
+echo.
+set /p "LOCK_CHOICE=Enter choice (1-4, or press Enter to skip): "
+
+if "%LOCK_CHOICE%"=="1" (
+    echo.
+    echo Pattern Grid Reference:
+    echo   1  2  3
+    echo   4  5  6
+    echo   7  8  9
+    set /p "USER_PATTERN=Enter your pattern dot sequence (e.g. 159873 or 12359): "
+    if not "!USER_PATTERN!"=="" (
+        powershell -NoProfile -Command "(Get-Content '%~dp0settings.ini') -replace '^LockType=.*', 'LockType=pattern' -replace '^Pattern=.*', 'Pattern=!USER_PATTERN!' | Set-Content '%~dp0settings.ini'"
+        echo Saved pattern to settings.ini.
+    )
+)
+if "%LOCK_CHOICE%"=="2" (
+    set /p "USER_PIN=Enter your lockscreen PIN: "
+    if not "!USER_PIN!"=="" (
+        powershell -NoProfile -Command "(Get-Content '%~dp0settings.ini') -replace '^LockType=.*', 'LockType=pin' -replace '^LockCode=.*', 'LockCode=!USER_PIN!' | Set-Content '%~dp0settings.ini'"
+        echo Saved PIN to settings.ini.
+    )
+)
+if "%LOCK_CHOICE%"=="3" (
+    set /p "USER_PWD=Enter your lockscreen password: "
+    if not "!USER_PWD!"=="" (
+        powershell -NoProfile -Command "(Get-Content '%~dp0settings.ini') -replace '^LockType=.*', 'LockType=password' -replace '^LockCode=.*', 'LockCode=!USER_PWD!' | Set-Content '%~dp0settings.ini'"
+        echo Saved password to settings.ini.
+    )
+)
+if "%LOCK_CHOICE%"=="4" (
+    powershell -NoProfile -Command "(Get-Content '%~dp0settings.ini') -replace '^LockType=.*', 'LockType=none' | Set-Content '%~dp0settings.ini'"
+    echo Set Auto-Unlock to None/Swipe.
+)
+echo.
+
+:: Done Summary
 echo ===================================================================
 echo                      SETUP COMPLETED!
 echo ===================================================================

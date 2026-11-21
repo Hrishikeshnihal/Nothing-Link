@@ -40,7 +40,7 @@ A high-performance wireless screen mirroring and remote control system tailored 
 
 ## Configuration
 
-Settings can be customized in `settings.ini`:
+Settings can be customized in `settings.ini` or configured interactively during `Setup.bat`:
 
 ```ini
 [Network]
@@ -52,6 +52,16 @@ MaxFps=120
 VideoCodec=h265
 
 [Security]
+; Lock screen type: pattern, pin, password, or none
+LockType=pattern
+
+; If LockType=pin or LockType=password, enter your unlock PIN or password:
+LockCode=1234
+
+; If LockType=pattern, enter your 3x3 pattern sequence (digits 1 to 9):
+; 1  2  3
+; 4  5  6
+; 7  8  9
 Pattern=159873
 ```
 
