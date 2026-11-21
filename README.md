@@ -3,20 +3,25 @@
 [![Release](https://img.shields.io/github/v/release/Hrishikeshnihal/Nothing-Link?color=D71921)](https://github.com/Hrishikeshnihal/Nothing-Link/releases/tag/v3.0.0-PRO)
 [![Nothing OS](https://img.shields.io/badge/Nothing_OS-5.0-black)](https://github.com/Hrishikeshnihal/Nothing-Link)
 [![Companion APK](https://img.shields.io/badge/Download-APK-34D399)](https://github.com/Hrishikeshnihal/Nothing-Link/releases/download/v3.0.0-PRO/nothing-connect-companion.apk)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A high-performance wireless screen mirroring and remote control system tailored for Nothing OS devices.
 
 ### 📥 [Download Latest Release v3.0.0-PRO](https://github.com/Hrishikeshnihal/Nothing-Link/releases/tag/v3.0.0-PRO)
 
-## Features
+---
+
+## ✨ Features
 
 - **Screen Off Mirroring**: Mirrors display to PC while keeping the physical phone display completely turned off to stay cool and save battery (`--turn-screen-off --stay-awake --power-off-on-close`).
 - **120 FPS High Refresh Rate**: Streams low-latency video using hardware H.265 encoding over local Wi-Fi Hotspot or USB.
-- **Automated Lockscreen Unlock**: Wakes screen, brings up bouncer, and inputs pattern `159873` hands-free upon launching.
+- **Automated Lockscreen Unlock**: Wakes screen, brings up bouncer, and inputs pattern, PIN, or password hands-free upon launching.
 - **Remote Hotspot Control**: Enables the phone's Wi-Fi hotspot remotely via cloud commands and Shizuku shell.
 - **Portable Host Engine**: Preconfigured portable ADB and Scrcpy runtime included in `bin/`—no SDK installation required on PC.
 
-## Quick Start
+---
+
+## 🚀 Quick Start
 
 ### 1. Initial Setup
 1. Connect your phone to your PC via USB cable.
@@ -28,7 +33,23 @@ A high-performance wireless screen mirroring and remote control system tailored 
 2. Connect your PC Wi-Fi to your phone's hotspot.
 3. Run `1-Mirror-Screen.bat`. The script auto-detects the gateway IP, performs the unlock sequence, and starts 120 FPS mirroring with the phone display powered off.
 
-## Launchers
+---
+
+## 🕹️ Shortcuts & Controls (Scrcpy Shortcuts)
+
+| Shortcut (Default `Alt` / `MOD`) | Action |
+|---|---|
+| `MOD + f` | Toggle Fullscreen Mode |
+| `MOD + h` | Go to Home Screen |
+| `MOD + b` or Right-Click | Back |
+| `MOD + s` | Open App Switcher / Recent Apps |
+| `MOD + p` | Power On / Off Screen |
+| `MOD + Shift + v` | Paste PC Clipboard into Phone |
+| `MOD + n` | Expand Notification Panel |
+
+---
+
+## 📂 Launchers
 
 - `Setup.bat`: One-click setup for new PCs (installs APK, grants permissions, starts services).
 - `1-Mirror-Screen.bat`: Connects over hotspot, auto-unlocks, and streams with phone display OFF.
@@ -38,7 +59,9 @@ A high-performance wireless screen mirroring and remote control system tailored 
 - `Start-Shizuku.bat`: Starts Shizuku server on phone via ADB after a reboot.
 - `Install-Companion-App.bat`: Installs or updates the companion APK to connected phone.
 
-## Configuration
+---
+
+## ⚙️ Configuration
 
 Settings can be customized in `settings.ini` or configured interactively during `Setup.bat`:
 
@@ -65,7 +88,20 @@ LockCode=1234
 Pattern=159873
 ```
 
-## Project Structure
+---
+
+## 🔧 Troubleshooting
+
+| Issue | Resolution |
+|---|---|
+| **Device not detected over Wi-Fi** | Ensure both PC and Phone are on the same subnet/hotspot. Run `Setup.bat` once with USB connected to re-enable wireless port 5555. |
+| **Phone screen turns black & unresponsive** | Normal behavior during *Screen-Off Mirroring*. Press `MOD + p` or double-tap the phone power button to wake the physical display. |
+| **Black screen or video lag** | In `settings.ini`, change `VideoCodec=h265` to `VideoCodec=h264`, or lower `MaxFps=120` to `MaxFps=60`. |
+| **Shizuku service stopped** | If your phone was rebooted, connect USB or run `Start-Shizuku.bat` to restart the Shizuku wireless service. |
+
+---
+
+## 📁 Project Structure
 
 ```text
 ├── 1-Mirror-Screen.bat         # Mirror with screen off & auto-unlock
@@ -82,3 +118,11 @@ Pattern=159873
 ├── core/                       # Automation scripts (PowerShell & Shell)
 └── server/                     # Web dashboard server
 ```
+
+---
+
+## 👤 Author
+
+**Hrishikesh Nihal**
+- GitHub: [@Hrishikeshnihal](https://github.com/Hrishikeshnihal)
+- Email: nihalhrishikesh@gmail.com
